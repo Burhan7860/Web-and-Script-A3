@@ -1,0 +1,110 @@
+<%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
+<div class="container text-center">
+  <h1 class="display-4 fw-bold mt-5 mb-4"><%= title %></h1>
+  <p class="lead mt-4 mb-2">
+    Please submit a ticket below and one of our Helpdesk Technicians will be
+    with you shortly.
+  </p>
+</div>
+
+<section id="contact" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Submit a Ticket</h2>
+    <form
+      <%= (typeof ticket !== 'undefined') ? 'action=/api/edit' : 'action=/api/create' %>
+      method="post"
+      enctype="application/x-www-form-urlencoded"
+      class="row g-3"
+    >
+      <% if (typeof ticket !== 'undefined') { %>
+        <input type="hidden" name="id" value="<%= ticket._id %>"/>
+      <% } %>
+      <div class="col-md-6">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          placeholder="Add Name Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.name : '' %>"
+          required
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label for="email" class="form-label">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="Add Email Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.email : '' %>"
+          required
+        />
+      </div>
+
+      <div class="col-md-12">
+        <label for="title" class="form-label">Title:</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Add Title Here"
+          value="<%= (typeof ticket !== 'undefined') ? ticket.title : '' %>"
+          required
+        />
+      </div>
+
+      <div class="col-12">
+        <label for="description" class="form-label">Description:</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+          class="form-control"
+          placeholder="Add Description Here"
+          required
+        ><%= (typeof ticket !== 'undefined') ? ticket.description : '' %></textarea>
+      </div>
+
+      <div class="col-md-6">
+        <label for="type" class="form-label"
+          >Please select the issue type</label
+        >
+        <select name="type" class="form-select" id="type" required>
+          <option value="Software" <%= (typeof ticket !== 'undefined' && ticket.type == 'Software') ? 'selected' : '' %>>Software</option>
+          <option value="Hardware" <%= (typeof ticket !== 'undefined' && ticket.type == 'Hardware') ? 'selected' : '' %>>Hardware</option>
+          <option value="Inquiry" <%= (typeof ticket !== 'undefined' && ticket.type == 'Inquiry') ? 'selected' : '' %>>Inquiry/Question</option>
+          <option value="Network" <%= (typeof ticket !== 'undefined' && ticket.type == 'Network') ? 'selected' : '' %>>Network/WiFi</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="priority" class="form-label"
+          >Please select the priority level</label
+        >
+        <select name="priority" class="form-select" id="priority" required>
+          <option value="0" <%= (typeof ticket !== 'undefined' && ticket.priority == '0') ? 'selected' : '' %>>Low</option>
+          <option value="1" <%= (typeof ticket !== 'undefined' && ticket.priority == '1' || typeof ticket == 'undefined') ? 'selected' : '' %>>Medium (Default)</option>
+          <option value="2" <%= (typeof ticket !== 'undefined' && ticket.priority == '2') ? 'selected' : '' %>>High</option>
+          <option value="3" <%= (typeof ticket !== 'undefined' && ticket.priority == '3') ? 'selected' : '' %>>Urgent</option>
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary me-2 mt-5 mb-5">
+          <%= (typeof ticket !== 'undefined') ? 'Save' : 'Submit' %>
+        </button>
+        <% if (typeof ticket == 'undefined') { %>
+          <button type="reset" class="btn btn-secondary me-2 mt-5 mb-5">Reset</button>
+        <% } else { %>
+          <a href="/manage" class="btn btn-secondary me-2 mt-5 mb-5">Back</a>
+        <% } %>
+      </div>
+    </form>
+  </div>
+</section>
+<%- include Partials/footer.ejs %>
