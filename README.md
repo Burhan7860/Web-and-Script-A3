@@ -1,8 +1,23 @@
-# WSP-Project-1
+# Assignment Tracker Application
 
-<p>Muhammad Burhan Chattha - 100916263</p>
-<p>Chris Panetta - 100908867</p>
-<p>Jackson Barker - 100914739</p>
-<p> </p>
-<p>https://wsp-p1.chrispanetta.com/</p>
-<p>https://infr3120-p1.jacksonbarker.ca/</p>
+This is a simple Assignment Tracker application with full CRUD (Create, Read, Update, Delete) operations, built using Express.js and MongoDB.
+
+## Project Information
+
+- **Name**: Burhan Chattha
+- **Student Number**: 100916263
+
+## Features
+
+This Assignment Tracker application includes the following features:
+
+- **Create** a new to-do item
+- **Read** or view all existing to-do items
+- **Update** an existing to-do item
+- **Delete** a to-do item
+
+## Technologies Used
+
+- **Backend**: [Express.js](https://expressjs.com/)
+- **Database**: [MongoDB](https://www.mongodb.com/)
+- **API**: RESTful API for handling CRUD operations
