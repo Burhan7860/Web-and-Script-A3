@@ -1,151 +1,187 @@
-<!-- Main section displaying a table of Assignments with options to view, edit, or delete each Assignment. Success and error alerts appear based on the Assignment status (updated or deleted). Modals provide detailed views and confirmation for deletions. -->
 <%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
-<main class="container">
+
+<main class="container my-5">
+  <!-- Alerts -->
   <% if (typeof edited !== 'undefined' && edited) { %>
-  <div class="alert alert-success alert-dismissible my-5">
-    <strong>Success!</strong> The Assignment was updated!
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> The Assignment was updated successfully.
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   <% } %> <% if (typeof edited !== 'undefined' && !edited) { %>
-  <div class="alert alert-danger alert-dismissible my-5">
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Error!</strong> The Assignment could not be updated.
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   <% } %> <% if (typeof deleted !== 'undefined' && deleted) { %>
-  <div class="alert alert-success alert-dismissible my-5">
-    <strong>Success!</strong> The was deleted!
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> The Assignment was deleted successfully.
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   <% } %> <% if (typeof deleted !== 'undefined' && !deleted) { %>
-  <div class="alert alert-danger alert-dismissible my-5">
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Error!</strong> The Assignment could not be deleted.
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   <% } %>
+
+  <!-- Assignment Table -->
   <div class="row py-5">
     <div class="offset-md-1 col-md-10">
-      <table class="table table-bordered table-striped table-hover">
-        <tr class="d-flex">
-          <th class="col-6">Assignment</th>
-          <th class="col-2">Course</th>
-          <th class="col-2">Due Date</th>
-          <th class="text-center col-2"></th>
-        </tr>
-        <% for(let count = 0; count < assignment_list.length; count++) { %>
-        <tr class="d-flex">
-          <td class="col-6"><%= assignment_list[count].assignment %></td>
-          <td class="col-2"><%= assignment_list[count].course %></td>
-          <td class="col-2"><%= assignment_list[count].duedate %></td>
-          <td class="text-center col-2">
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-success"
-                data-bs-toggle="modal"
-                data-bs-target="#<%= assignment_list[count]._id %>ViewModal"
-              >
-                <i class="fa-solid fa-file-lines"></i>
-              </button>
-              <a
-                href="/editor?id=<%= assignment_list[count]._id %>"
-                class="btn btn-primary"
-                ><i class="fa-solid fa-file-pen"></i
-              ></a>
-              <button
-                type="button"
-                class="btn btn-danger"
-                data-bs-toggle="modal"
-                data-bs-target="#<%= assignment_list[count]._id %>DeleteModal"
-              >
-                <i class="fa-solid fa-file-excel"></i>
-              </button>
-            </div>
-            <div
-              class="modal fade"
-              id="<%= assignment_list[count]._id %>ViewModal"
-              tabindex="-1"
-            >
-              <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body text-start">
-                    <h2 class="fs-5">Assignment</h2>
-                    <p><%= assignment_list[count].assignment %></p>
-                    <h2 class="fs-5">Course</h2>
-                    <p><%= assignment_list[count].course %></p>
-                    <h2 class="fs-5">Due Date</h2>
-                    <p><%= assignment_list[count].duedate %></p>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Dismiss
-                    </button>
-                  </div>
+      <table
+        class="table table-bordered table-striped table-hover align-middle"
+      >
+        <thead class="table-light">
+          <tr class="d-flex">
+            <th class="col-6">Assignment</th>
+            <th class="col-2">Course</th>
+            <th class="col-2">Due Date</th>
+            <th class="text-center col-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% assignment_list.forEach(assignment => { %>
+          <tr class="d-flex">
+            <td class="col-6"><%= assignment.assignment %></td>
+            <td class="col-2"><%= assignment.course %></td>
+            <td class="col-2"><%= assignment.duedate %></td>
+            <td class="text-center col-2">
+              <div class="btn-group">
+                <!-- View Modal Trigger -->
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#<%= assignment._id %>ViewModal"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <!-- Edit Link -->
+                <a
+                  href="/editor?id=<%= assignment._id %>"
+                  class="btn btn-primary"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </a>
+                <!-- Delete Modal Trigger -->
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#<%= assignment._id %>DeleteModal"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- View Modal -->
+          <div
+            class="modal fade"
+            id="<%= assignment._id %>ViewModal"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Assignment Details</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <h6>Assignment</h6>
+                  <p><%= assignment.assignment %></p>
+                  <h6>Course</h6>
+                  <p><%= assignment.course %></p>
+                  <h6>Due Date</h6>
+                  <p><%= assignment.duedate %></p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
             </div>
-            <div
-              class="modal fade"
-              id="<%= assignment_list[count]._id %>DeleteModal"
-              tabindex="-1"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5">Delete Assignment</h1>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body text-start">
-                    <p>
-                      <b
-                        >Are you sure you want to delete the Assignment titled
-                        "</b
-                      ><%= assignment_list[count].assignment %><b>" ?</b>
-                    </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <form action="/api/delete" method="POST">
-                      <input
-                        type="hidden"
-                        name="id"
-                        value="<%= assignment_list[count]._id %>"
-                      />
-                      <button type="submit" class="btn btn-danger">
-                        Delete
-                      </button>
-                    </form>
-                  </div>
+          </div>
+
+          <!-- Delete Modal -->
+          <div
+            class="modal fade"
+            id="<%= assignment._id %>DeleteModal"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Delete Assignment</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete the assignment titled "<strong
+                    ><%= assignment.assignment %></strong
+                  >"?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <form action="/api/delete" method="POST">
+                    <input
+                      type="hidden"
+                      name="id"
+                      value="<%= assignment._id %>"
+                    />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </div>
               </div>
             </div>
-          </td>
-        </tr>
-        <% } %>
+          </div>
+          <% }); %>
+        </tbody>
       </table>
     </div>
   </div>
 </main>
+
 <%- include Partials/footer.ejs %>
