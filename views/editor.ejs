@@ -1,10 +1,9 @@
-<!-- Main content section displaying a form to submit or edit a assignment with fields for assignment name, course, and due date; dynamically sets action based on whether assignment data is provided -->
-<%- include Partials/header.ejs %> <%- include Partials/main_nav.ejs %>
+<%- include Partials/header.ejs %>
+<%- include Partials/main_nav.ejs %>
+
 <div class="container text-center">
   <h1 class="display-4 fw-bold mt-5 mb-4"><%= title %></h1>
-  <p class="lead mt-4 mb-2">
-    Add your Assignment to do here!.
-  </p>
+  <p class="lead mt-4 mb-2">Add your assignment details below!</p>
 </div>
 
 <section id="contact" class="py-5">
@@ -14,59 +13,65 @@
       <%= (typeof assignment !== 'undefined') ? 'action=/api/edit' : 'action=/api/create' %>
       method="post"
       enctype="application/x-www-form-urlencoded"
-      class="row g-3"
+      class="row g-4"
     >
       <% if (typeof assignment !== 'undefined') { %>
         <input type="hidden" name="id" value="<%= assignment._id %>"/>
       <% } %>
+
+      <!-- Assignment Name Field -->
       <div class="col-md-12">
-        <label for="assignment" class="form-label">Assignment:</label>
+        <label for="assignment" class="form-label">Assignment Name:</label>
         <input
           type="text"
           id="assignment"
           name="assignment"
-          class="form-control"
-          placeholder="Add assignment Here"
-          value="<%= (typeof Assignment !== 'undefined') ? assignment.name : '' %>"
+          class="form-control shadow-sm"
+          placeholder="Enter assignment name"
+          value="<%= (typeof assignment !== 'undefined') ? assignment.name : '' %>"
           required
         />
       </div>
 
+      <!-- Course Field -->
       <div class="col-12">
         <label for="course" class="form-label">Course:</label>
         <textarea
           id="course"
           name="course"
-          class="form-control"
-          placeholder="Add Course Here"
+          class="form-control shadow-sm"
+          placeholder="Enter course name or description"
+          rows="3"
           required
         ><%= (typeof assignment !== 'undefined') ? assignment.course : '' %></textarea>
       </div>
 
+      <!-- Due Date Field -->
       <div class="col-12">
         <label for="duedate" class="form-label">Due Date:</label>
         <input
           type="date"
           id="duedate"
           name="duedate"
-          class="form-control"
-          placeholder="Add Due Date Here"
+          class="form-control shadow-sm"
           value="<%= (typeof assignment !== 'undefined') ? assignment.duedate : '' %>"
           required
         />
       </div>
 
+      <!-- Buttons -->
       <div class="text-center">
-        <button type="submit" class="btn btn-primary me-2 mt-5 mb-5">
-          <%= (typeof assignment !== 'undefined') ? 'Save' : 'Submit' %>
+        <button type="submit" class="btn btn-primary px-4 py-2 me-2 mt-4">
+          <%= (typeof assignment !== 'undefined') ? 'Save Changes' : 'Submit Assignment' %>
         </button>
-        <% if (typeof assignment == 'undefined') { %>
-          <button type="reset" class="btn btn-secondary me-2 mt-5 mb-5">Reset</button>
+        <% if (typeof assignment === 'undefined') { %>
+          <button type="reset" class="btn btn-outline-secondary px-4 py-2 mt-4">Reset</button>
         <% } else { %>
-          <a href="/manage" class="btn btn-secondary me-2 mt-5 mb-5">Back</a>
+          <a href="/manage" class="btn btn-outline-secondary px-4 py-2 mt-4">Back</a>
         <% } %>
       </div>
     </form>
   </div>
 </section>
+
 <%- include Partials/footer.ejs %>
